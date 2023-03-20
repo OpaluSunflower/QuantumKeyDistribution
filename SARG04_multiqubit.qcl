@@ -12,7 +12,7 @@ input "Podaj rozmiar klucza", rozmiarKlucza;
 
 int bazaAlicji;
 int bazaBolka;
-/*int vector wygenerowanyKlucz[rozmiarKlucza];*/
+int vector wygenerowanyKlucz[rozmiarKlucza];
 
 qureg rejestrKlucza[rozmiarKlucza];//0
 //qureg zeroIJeden[2];
@@ -38,13 +38,15 @@ for i = 0 to #rejestrKlucza-1 step 1{
 	print "Baza Prosta:", polarrad, "stopni";
 	if bazaUkosna == 0
 	{
-		print "BazaUkosna: 45 stopni";
+		polarrad = 45;
+		//print "BazaUkosna: 45 stopni";
 	}
 	else
 	{
-		print "BazaUkosna: 135 stopni";
+		polarrad = 135;
+		//print "BazaUkosna: 135 stopni";
 	}
-
+	print "Baza Ukosna:", polarrad, "stopni";
 	if bazaAlicji == 0
 	{
 		if bazaProsta == 1
@@ -55,7 +57,6 @@ for i = 0 to #rejestrKlucza-1 step 1{
 	}
 	else
 	{
-
 		if bazaUkosna == 1
 		{
 			Not(rejestrKlucza[i]);
@@ -93,10 +94,13 @@ for i = 0 to #rejestrKlucza-1 step 1{
 		if bazaProsta != m
 		{
 			print "Wynik roztrzygajacy!";
+			wygenerowanyKlucz[i] = bazaProsta;
+			
 		}
 		else
 		{
 			print "Wynik nierozrzygajacy";
+			wygenerowanyKlucz[i] = -1;
 		}
 	}
 	else
@@ -112,11 +116,14 @@ for i = 0 to #rejestrKlucza-1 step 1{
 		if bazaUkosna != m
 		{
 			print "Wynik roztrzygajacy!";
+			wygenerowanyKlucz[i] = bazaUkosna;
 		}
 		else
 		{
 			print "Wynik nieroztrzygajacy";
+			wygenerowanyKlucz[i] = -1;
 		}
 	}
 	print "-----------------------------------------------------------------------------------------------";
+print wygenerowanyKlucz;
 }                                                                       
