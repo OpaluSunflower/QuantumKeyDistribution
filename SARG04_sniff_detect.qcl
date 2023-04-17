@@ -3,9 +3,9 @@ int losuj10(real rand)
 if rand <= 0.5 {return 0;}
 else {return 1;}
 }
-int zamien10(int i)
+boolean sprawdzPodsluch(int odczytBolka,int qubitAlicji)
 {
-	return (i - 1)*(-1);
+	return odczytBolka == qubitAlicji;
 }
 int rozmiarKlucza;
 rozmiarKlucza = 10;
@@ -50,32 +50,27 @@ while i < rozmiarKlucza{
 	print "Baza Ukosna:", polarrad, "stopni";
 	if bazaAlicji == 0
 	{
+		polarrad = 0;
 		if bazaProsta == 1
 		{
 			Not(rejestrKlucza[i]);
+			polarrad = 90;
 		}
 	print "Prawidlowa: Prosta, wyslano", polarrad, "stopni";
 	wygenerowanyKlucz[i] = 0;
 	}
 	else
-	{
+	{	polarrad = 45;
 		if bazaUkosna == 1
 		{
+			polarrad = 135;
 			Not(rejestrKlucza[i]);
 		}
 		H(rejestrKlucza[i]);
 	print "Prawidlowa: Ukosna, wyslano", polarrad, "stopni";
 	wygenerowanyKlucz[i] = 1;
 	}
-//ATAK EWY
-	bazaEwy = losuj10(random());
-	/*
-	if bazaEwy == 1
-	{
-		H(rejestrKlucza[i]);
-	}
-	measure rejestrKlucza[i], EvaMeasurement;
-	*/
+
 	bazaBolka = losuj10(random());
 
 	if bazaBolka == 1
@@ -110,9 +105,15 @@ while i < rozmiarKlucza{
 		}
 		else
 		{
-			print "Wynik nierozrzygajacy";
-			//przeslanyKlucz[i] = -1;
+			print "Wynik nierotzrzygajacy";
 		}
+		if bazaAlicji == bazaBolka
+		{
+			if not sprawdzPodsluch(BolekMeasurement,bazaProsta)
+			{
+				print "WYKRYTO PODSLUCH!!!";
+			}
+		}	
 	}
 	else
 	{
@@ -133,10 +134,15 @@ while i < rozmiarKlucza{
 		else
 		{
 			print "Wynik nieroztrzygajacy";
-			//przeslanyKlucz[i] = -1;
+		}
+		if bazaAlicji == bazaBolka
+		{
+			if not sprawdzPodsluch(BolekMeasurement,bazaUkosna)
+			{
+				print "WYKRYTO PODSLUCH!!!";
+			}
 		}
 	}
-
 	print "-----------------------------------------------------------------------------------------------";
 	print "";
 	recursionCounter = recursionCounter + 1;
