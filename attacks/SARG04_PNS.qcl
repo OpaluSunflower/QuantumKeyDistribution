@@ -112,7 +112,7 @@ while i < rozmiarKlucza{
 		{
 			print "Wynik roztrzygajacy!";
 			przeslanyKlucz[i] = 1;
-			przechwyconyKlucz[i] = 1;
+			//przechwyconyKlucz[i] = 1;
 			i=i+1;
 		}
 		else
@@ -142,7 +142,7 @@ while i < rozmiarKlucza{
 		{
 			print "Wynik roztrzygajacy!";
 			przeslanyKlucz[i] = 0;
-			przechwyconyKlucz[i] = 0;
+			//przechwyconyKlucz[i] = 0;
 			i=i+1;
 		}
 		else
