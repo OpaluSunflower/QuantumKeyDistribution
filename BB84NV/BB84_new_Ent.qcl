@@ -6,8 +6,6 @@ operator ustawKubit(int baza,int pojedynczyBitKlucza,qureg kubit){
 }
 operator odbiorKubitu(int baza,qureg kubit){
 	if baza== 1{H(kubit);}
-	//print "Stan kubitu przed pomiarBolkaem";
-	//measure kubit, pomiarBolka;
 }
 int losuj(real rand){
 	if rand < 0.5{
@@ -116,10 +114,11 @@ while iterator0 < dlugoscKlucza
 	ustawKubit(bazyAlicji[iterator0], pojedynczyBitKlucza, kubit);
 	//ATAK EWY
 	bazyEwy[iteratorEwy] = losuj(random());
-	Cnot(kubit,kubitEwy);
+	odbiorKubitu(bazyEwy[iterator0],kubitEwy);
+	CNot(kubitEwy,kubit);
 	dump;
-	odbiorKubitu(bazyEwy[iteratorEwy],kubitEwy);
-	measure kubitEwy,pomiarEwy;
+	//odbiorKubitu(bazyEwy[iteratorEwy],kubitEwy);
+	//measure kubitEwy,pomiarEwy;
 	bazyBolka[iterator0] = losuj(random());
 	print "Baza Bolka:", baza(bazyBolka[iterator0]);
 	odbiorKubitu(bazyBolka[iterator0],kubit);
@@ -130,6 +129,8 @@ while iterator0 < dlugoscKlucza
 	{
 		kluczWygenerowany[iterator0] = pojedynczyBitKlucza;
 		kluczOtrzymany[iterator0] = pomiarBolka;
+		odbiorKubitu(bazyEwy[iterator0],kubitEwy);
+		measure kubitEwy, pomiarEwy;
 		kluczPrzechwycony[iterator0] = pomiarEwy;
 		iterator0 = iterator0 + 1;
 
