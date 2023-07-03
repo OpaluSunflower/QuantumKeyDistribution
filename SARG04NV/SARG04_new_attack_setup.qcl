@@ -6,7 +6,7 @@ operator ustawKubit(int baza,int pojedynczyBitKlucza,qureg kubit){
 }
 operator odbiorKubitu(int baza,qureg kubit){
 	if baza== 1{H(kubit);}
-	//print "Stan kubitu przed pomiarBolkaem";
+	//print "Stan kubitu przed pomiarem";
 	//measure kubit, pomiarBolka;
 }
 int losuj(real rand){
@@ -60,85 +60,94 @@ real procentBledow(real error, int dlugoscKlucza){
 boolean sprawdzaniePojedynczegoBitu(int bitAlicji, int bitBolka){
 	return bitAlicji == bitBolka; 
 }
-int sprawdzanieKluczy(int dlugoscKluczy, int vector kluczWygenerowany, int vector kluczOtrzymany){
+boolean sprawdzanieKluczy(int dlugoscKluczy, int vector kluczWygenerowany, int vector kluczOtrzymany){
 	int iterator2 = 0;
-	int wykrytePodsluchy = 0;
 	while iterator2 < dlugoscKluczy{
 		if not sprawdzaniePojedynczegoBitu(kluczWygenerowany[iterator2],kluczOtrzymany[iterator2]){
-			wykrytePodsluchy = wykrytePodsluchy +1 ;
+			return false;
 		}
 		iterator2 = iterator2 + 1;
 	}
-	return wykrytePodsluchy;
+	return true;
 }
-qureg kubit[2];
-//BAZY
-//0 -> prosta, 1 -> ukosna
+qureg kubit[1];
 
-//KIERUNEK POLARYZACJI
-//		|prosta	|	ukosna
-//------------------------
-//	0	|0		|	pi/4
-//------------------------
-//	1	|pi/2	|	3pi/2
+//SCHEMAT KODOWANIA
+//BAZA PROSTA -> 0
+//BAZA UKOSNA -> 1
 
 int kierunekPolaryzacji;
 int dlugoscKlucza;
 int bazaAlicji;
 int bazaBolka;
-int bazaEwy;
 int pojedynczyBitKlucza;
 
-
+int kierunekWBazieProstej;
+int kierunekWBazieUkosnej;
 input "Podaj dlugosc klucza", dlugoscKlucza;
 int vector bazyAlicji[dlugoscKlucza];
 int vector bazyBolka[dlugoscKlucza];
 int vector bazyEwy[dlugoscKlucza];
+
 int vector kluczWygenerowany[dlugoscKlucza];
 int pomiarBolka;
-int pomiarEwy;
 int vector kluczOtrzymany[dlugoscKlucza];
 int vector kluczPrzechwycony[dlugoscKlucza];
 
-int wykrytePodsluchy = 0;
 int iterator0 = 0;
-int iteratorEwy = 0;
 print "-------WYSŁANE KUBITY--------";
 while iterator0 < dlugoscKlucza
 {
 	pojedynczyBitKlucza = losuj(random());
 	//kluczWygenerowany[iterator0] = pojedynczyBitKlucza;
 	print "Bit klucza:", pojedynczyBitKlucza;
-	bazyAlicji[iterator0] = losuj(random());//bazaAlicji;
+	bazyAlicji[iterator0] = pojedynczyBitKlucza;//losuj(random());//bazaAlicji;
 	print "Baza Alicji:", baza(bazyAlicji[iterator0]);
-	kierunekPolaryzacji = polaryzacja(bazyAlicji[iterator0], pojedynczyBitKlucza);
-	print "KierunekPolaryzacji:",kierunekPolaryzacji;
-	ustawKubit(bazyAlicji[iterator0], pojedynczyBitKlucza, kubit[0]);
-	ustawKubit(bazyAlicji[iterator0], pojedynczyBitKlucza, kubit[1]);	
+	kierunekWBazieProstej = losuj(random());
+	print "Kierunek w bazie Prostej: ", polaryzacja(0,kierunekWBazieProstej);
+	kierunekWBazieUkosnej = losuj(random());
+	print "Kierunek w Bazie Ukosnej: ", polaryzacja(1,kierunekWBazieUkosnej);
+	//kierunekPolaryzacji = polaryzacja(bazyAlicji[iterator0], pojedynczyBitKlucza);
+	//print "KierunekPolaryzacji:",kierunekPolaryzacji;
+	if bazyAlicji[iterator0] == 0{
+		kierunekPolaryzacji = kierunekWBazieProstej;
+	}
+	else{
+		kierunekPolaryzacji = kierunekWBazieUkosnej;	
+	}
+	ustawKubit(bazyAlicji[iterator0], kierunekPolaryzacji, kubit);
 	bazyBolka[iterator0] = losuj(random());
 	print "Baza Bolka:", baza(bazyBolka[iterator0]);
-	odbiorKubitu(bazyBolka[iterator0],kubit[0]);
-	dump kubit;
-	measure kubit[0],pomiarBolka;
-	print "pomiarBolka Bolka:", polaryzacja(bazyBolka[iterator0],pomiarBolka);
+	odbiorKubitu(bazyBolka[iterator0],kubit);
+	measure kubit,pomiarBolka;
+	print "Pomiar Bolka:", polaryzacja(bazyBolka[iterator0],pomiarBolka);
 	print "Otrzymany bit klucza:", pomiarBolka;
-	//ATAK EWY
-	bazyEwy[iterator0] = bazyAlicji[iterator0];
-	odbiorKubitu(bazyEwy[iterator0],kubit[1]);
-	measure kubit[1],pomiarEwy;
-	if bazyAlicji[iterator0] == bazyBolka[iterator0]
+	if bazyBolka[iterator0] == 0
 	{
-		kluczWygenerowany[iterator0] = pojedynczyBitKlucza;
-		kluczOtrzymany[iterator0] = pomiarBolka;
-		kluczPrzechwycony[iterator0] = pomiarEwy;
-		iterator0 = iterator0 + 1;
-
+		if kierunekWBazieProstej != pomiarBolka
+		{
+			kluczWygenerowany[iterator0] = pojedynczyBitKlucza;
+			kluczOtrzymany[iterator0] = (bazyBolka[iterator0] * -1) + 1;
+			iterator0 = iterator0 + 1;
+		}
+		else
+		{
+			print "Bit niewykorzystany";
+		}
 	}
 	else
 	{
-		print "Bit niewykorzystany";
+		if kierunekWBazieUkosnej != pomiarBolka
+		{
+			kluczWygenerowany[iterator0] = pojedynczyBitKlucza;
+			kluczOtrzymany[iterator0] = (bazyBolka[iterator0] * -1) +1;
+			iterator0 = iterator0 + 1;
+		}
+		else
+		{
+			print "Bit niewykorzystany";
+		}
 	}
-	
 	if iterator0 <= dlugoscKlucza -1{print "--------NASTEPNY KUBIT----------";}
 	reset;
 	
@@ -146,8 +155,9 @@ while iterator0 < dlugoscKlucza
 }//petla glowna
 print "Klucz wygenerowany przez Alicję: ",kluczWygenerowany;
 print "Klucz otrzymany przez Bolka:", kluczOtrzymany;
-print "Klucz przechwycony przez Ewe", kluczPrzechwycony;
-print "WykrytePodsluchy", sprawdzanieKluczy(dlugoscKlucza, kluczWygenerowany, kluczOtrzymany);
+if not sprawdzanieKluczy(dlugoscKlucza, kluczWygenerowany, kluczOtrzymany){
+	print "Wykryto podsluch";
+}
 //int iterator1;
 //real errorToKeyLength;
 
@@ -156,6 +166,6 @@ print "WykrytePodsluchy", sprawdzanieKluczy(dlugoscKlucza, kluczWygenerowany, kl
 //}
 //errorToKeyLength = errorToKeyLength/dlugoscKlucza;
 real liczbaBledown = liczbaBledow(kluczWygenerowany, kluczOtrzymany, dlugoscKlucza);
-real stopienPrzechwycenia = liczbaBledow(kluczWygenerowany, kluczPrzechwycony,dlugoscKlucza); 
+real stopienPrzechwycenia = liczbaBledow(kluczWygenerowany, kluczPrzechwycony, dlugoscKlucza); 
 print "Statystyka pomyłek:", procentBledow(liczbaBledown, dlugoscKlucza);
-print "Stopien przechwycenia:", 1 - procentBledow(stopienPrzechwycenia, dlugoscKlucza);
+print "Stopien przechwycenia:", procentBledow(stopienPrzechwycenia, dlugoscKlucza);
