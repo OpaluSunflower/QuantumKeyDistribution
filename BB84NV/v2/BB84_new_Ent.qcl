@@ -1,0 +1,159 @@
+set dump-format "b";
+
+operator ustawKubit(int baza,int pojedynczyBitKlucza,qureg kubit){
+	if pojedynczyBitKlucza == 1{Not(kubit);}
+	if baza == 1{H(kubit);}
+}
+operator odbiorKubitu(int baza,qureg kubit){//ustawienie kubitu do odczytu w odpowiedniej bazie
+	if baza== 1{H(kubit);}
+}
+int losuj(real rand){//losowanie 0 lub 1
+	if rand < 0.5{
+		return 0;
+	}
+	else{
+		return 1;
+	}
+}
+string baza(int baza)//zwracanie łańcucha znaków określającego bazę
+{
+	if baza == 0{
+		return "prosta";
+	}
+	else{
+		return "ukosna";	
+	}
+}
+int polaryzacja(int baza, int kierunek){//zwracanie inta wyrażającego polaryzację w stopniach
+	if baza(baza) == "prosta"{
+		if kierunek == 0{
+			return 0;
+		}
+		else{
+			return 90;
+		}
+	}
+	else{
+		if kierunek == 0{
+			return 45;
+		}
+		else{
+			return 135;
+		}
+	}
+}
+
+real procentBledow(real error, int dlugoscKlucza){//stosunek błędów do długości klucza
+	real errorToKeyLength = error/dlugoscKlucza;
+	return errorToKeyLength;
+}
+
+boolean sprawdzaniePojedynczegoBitu(int bitAlicji, int bitBolka){
+	return bitAlicji == bitBolka; 
+}
+real sprawdzaniePodsluchow(int dlugoscKluczy, int krok, int vector klucz1, int vector klucz2)
+{
+	int iterator3 = 0;
+	real podsluchyWykryte = 0.0;
+	while iterator3 < dlugoscKluczy
+	{
+		if not sprawdzaniePojedynczegoBitu(klucz1[iterator3], klucz2[iterator3])
+		{
+			podsluchyWykryte = podsluchyWykryte + 1.0;	
+		}
+	iterator3 = iterator3 + krok;
+	}//petla sprawdzajaca
+	return podsluchyWykryte;
+}
+
+qureg kubit[1];
+qureg kubitEwy[1];
+//BAZY
+//0 -> prosta, 1 -> ukosna
+
+//KIERUNEK POLARYZACJI
+//		|prosta	|	ukosna
+//------------------------
+//	0	|0		|	pi/4
+//------------------------
+//	1	|pi/2	|	3pi/2
+
+int kierunekPolaryzacji;
+int dlugoscKlucza;
+int bazaAlicji;
+int bazaBolka;
+int bazaEwy;
+int pojedynczyBitKlucza;
+
+int pomiarBolka;
+int pomiarEwy;
+
+input "Podaj dlugosc klucza", dlugoscKlucza;
+
+int vector kluczWygenerowany[dlugoscKlucza];
+int vector kluczOtrzymany[dlugoscKlucza];
+int vector kluczPrzechwycony[dlugoscKlucza];
+
+int iterator0 = 0;
+print "-------WYSŁANE KUBITY--------";
+while iterator0 < dlugoscKlucza
+{
+	pojedynczyBitKlucza = losuj(random());
+	kluczWygenerowany[iterator0] = pojedynczyBitKlucza;
+	print "Bit klucza:", pojedynczyBitKlucza;
+	bazaAlicji = losuj(random());//bazaAlicji;
+	print "Baza Alicji:", baza(bazaAlicji);
+	kierunekPolaryzacji = polaryzacja(bazaAlicji, pojedynczyBitKlucza);
+	print "KierunekPolaryzacji:",kierunekPolaryzacji;
+	ustawKubit(bazaAlicji, pojedynczyBitKlucza, kubit);
+
+	//KUBIT USTAWIONY
+	//ATAK EWY
+
+	bazaEwy = losuj(random());
+	odbiorKubitu(bazaEwy, kubit);
+	CNot(kubitEwy,kubit);
+	if bazaEwy == 1
+	{
+		odbiorKubitu(bazaEwy, kubit);
+	}	
+
+	bazaBolka = losuj(random());
+	print "Baza Bolka:", baza(bazaBolka);
+	odbiorKubitu(bazaBolka,kubit);
+	measure kubit,pomiarBolka;
+	print "Pomiar Bolka:", polaryzacja(bazaBolka,pomiarBolka);
+	print "Otrzymany bit klucza:", pomiarBolka;
+	//Alicja iBolek informaują się o wykorzystanych bazach
+	if bazaAlicji == bazaBolka
+	{
+		kluczWygenerowany[iterator0] = pojedynczyBitKlucza;
+		kluczOtrzymany[iterator0] = pomiarBolka;
+		measure kubitEwy, pomiarEwy;
+		if pomiarEwy == 0{
+			kluczPrzechwycony[iterator0] = 0;
+		}
+		else{
+		kluczPrzechwycony[iterator0] = 1;
+		}
+		iterator0 = iterator0 + 1;
+
+	}
+	else
+	{
+		print "Bit niewykorzystany";
+	}
+	
+	if iterator0 <= dlugoscKlucza -1{print "--------NASTEPNY KUBIT----------";}
+	reset;
+	
+	
+}//petla glowna
+print "Klucz wygenerowany przez Alicję: ",kluczWygenerowany;
+print "Klucz otrzymany przez Bolka:", kluczOtrzymany;
+print "Klucz przechwycony przez Ewe", kluczPrzechwycony;
+real podsluchy = sprawdzaniePodsluchow(dlugoscKlucza, 1, kluczWygenerowany, kluczOtrzymany);
+
+real bledyWPrzechwyconejWiadomosci = sprawdzaniePodsluchow(dlugoscKlucza, 1, kluczWygenerowany, kluczPrzechwycony);
+print "Stopien przejecia wiadomosci:", (1.0 - procentBledow(bledyWPrzechwyconejWiadomosci, dlugoscKlucza));  
+print "Statystyka wykrytych podsluchow:", procentBledow(podsluchy, dlugoscKlucza);
