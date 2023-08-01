@@ -1,7 +1,8 @@
 #!/bin/bash
 
 suma=0
-counter=10
+iter=10
+counter=$iter
 a=0.1
 b=0.2
 echo "$a + $b" | bc 
@@ -13,4 +14,4 @@ do
 	echo $suma
 	counter=$(( $counter - 1 ))
 done
-echo $suma 
+echo $(echo "$suma / $iter" | bc) 

@@ -51,16 +51,6 @@ real procentBledow(real error, int dlugoscKlucza){//stosunek błędów do długo
 boolean sprawdzaniePojedynczegoBitu(int bitAlicji, int bitBolka){
 	return bitAlicji == bitBolka; 
 }
-boolean sprawdzanieKluczy(int dlugoscKluczy, int vector kluczWygenerowany, int vector kluczOtrzymany){
-	int iterator2 = 0;
-	while iterator2 < dlugoscKluczy{
-		if not sprawdzaniePojedynczegoBitu(kluczWygenerowany[iterator2],kluczOtrzymany[iterator2]){
-			return false;
-		}
-		iterator2 = iterator2 + 1;
-	}
-	return true;
-}
 real sprawdzaniePodsluchow(int dlugoscKluczy, int krok, int vector klucz1, int vector klucz2)
 {
 	int iterator3 = 0;
@@ -117,6 +107,15 @@ while iterator0 < dlugoscKlucza
 	ustawKubit(bazaAlicji, pojedynczyBitKlucza, kubit);
 
 	//KUBIT USTAWIONY
+	//ATAK EWY
+	bazaEwy = losuj(random());
+	print "BazaEwy:", baza(bazaEwy);
+	odbiorKubitu(bazaEwy,kubit);
+	measure kubit, pomiarEwy;
+	if bazaEwy == 1
+	{
+		odbiorKubitu(bazaEwy,kubit);
+	}
 
 	bazaBolka = losuj(random());
 	print "Baza Bolka:", baza(bazaBolka);
@@ -129,6 +128,7 @@ while iterator0 < dlugoscKlucza
 	{
 		kluczWygenerowany[iterator0] = pojedynczyBitKlucza;
 		kluczOtrzymany[iterator0] = pomiarBolka;
+		kluczPrzechwycony[iterator0] = pomiarEwy;
 		iterator0 = iterator0 + 1;
 
 	}
@@ -144,7 +144,9 @@ while iterator0 < dlugoscKlucza
 }//petla glowna
 print "Klucz wygenerowany przez Alicję: ",kluczWygenerowany;
 print "Klucz otrzymany przez Bolka:", kluczOtrzymany;
+print "Klucz przechwycony przez Ewe", kluczPrzechwycony;
 real podsluchy = sprawdzaniePodsluchow(dlugoscKlucza, 1, kluczWygenerowany, kluczOtrzymany);
-
- 
+print podsluchy;
+real bledyWPrzechwyconejWiadomosci = sprawdzaniePodsluchow(dlugoscKlucza, 2, kluczWygenerowany, kluczPrzechwycony);
+print "Stopien przejecia wiadomosci:", (1.0 - procentBledow(bledyWPrzechwyconejWiadomosci, dlugoscKlucza));  
 print "Statystyka wykrytych podsluchow:", procentBledow(podsluchy, dlugoscKlucza);

@@ -6,8 +6,6 @@ operator ustawKubit(int baza,int pojedynczyBitKlucza,qureg kubit){
 }
 operator odbiorKubitu(int baza,qureg kubit){
 	if baza== 1{H(kubit);}
-	//print "Stan kubitu przed pomiarBolkaem";
-	//measure kubit, pomiarBolka;
 }
 int losuj(real rand){
 	if rand < 0.5{
@@ -60,12 +58,22 @@ real procentBledow(real error, int dlugoscKlucza){
 boolean sprawdzaniePojedynczegoBitu(int bitAlicji, int bitBolka){
 	return bitAlicji == bitBolka; 
 }
-int sprawdzanieKluczy(int dlugoscKluczy, int vector kluczWygenerowany, int vector kluczOtrzymany){
+real sprawdzanieKluczy(int dlugoscKluczy, int vector kluczWygenerowany, int vector kluczOtrzymany,boolean czyLosowac){
 	int iterator2 = 0;
-	int wykrytePodsluchy = 0;
+	real wykrytePodsluchy = 0;
+	int czyLosowac1 = 0;
 	while iterator2 < dlugoscKluczy{
-		if not sprawdzaniePojedynczegoBitu(kluczWygenerowany[iterator2],kluczOtrzymany[iterator2]){
-			wykrytePodsluchy = wykrytePodsluchy +1 ;
+		if czyLosowac {
+			czyLosowac1 = czyLosowac1 * -1 + 1;
+		}
+		else
+		{
+			czyLosowac1 = 0;
+		}
+		if czyLosowac1 == 0{
+			if not sprawdzaniePojedynczegoBitu(kluczWygenerowany[iterator2],kluczOtrzymany[iterator2]){
+				wykrytePodsluchy = wykrytePodsluchy +1 ;
+			}
 		}
 		iterator2 = iterator2 + 1;
 	}
@@ -115,8 +123,8 @@ while iterator0 < dlugoscKlucza
 	print "KierunekPolaryzacji:",kierunekPolaryzacji;
 	ustawKubit(bazyAlicji[iterator0], pojedynczyBitKlucza, kubit);
 	//ATAK EWY
-	bazyEwy[iteratorEwy] = losuj(random());
-	odbiorKubitu(bazyEwy[iteratorEwy],kubit);
+	bazyEwy[iterator0] = losuj(random());
+	odbiorKubitu(bazyEwy[iterator0],kubit);
 	measure kubit,pomiarEwy;
 	bazyBolka[iterator0] = losuj(random());
 	print "Baza Bolka:", baza(bazyBolka[iterator0]);
@@ -144,14 +152,10 @@ while iterator0 < dlugoscKlucza
 print "Klucz wygenerowany przez Alicję: ",kluczWygenerowany;
 print "Klucz otrzymany przez Bolka:", kluczOtrzymany;
 print "Klucz przechwycony przez Ewe", kluczPrzechwycony;
-print "WykrytePodsluchy", sprawdzanieKluczy(dlugoscKlucza, kluczWygenerowany, kluczOtrzymany);
-//int iterator1;
-//real errorToKeyLength;
+real bledyPodsluchu = sprawdzanieKluczy(dlugoscKlucza,kluczWygenerowany, kluczPrzechwycony,false);
+print "Stopień odtworzenia klucza przez Podsłuch:", 1.0 - procentBledow(bledyPodsluchu, dlugoscKlucza);
 
-//for iterator1 = 0 to dlugoscKlucza-1{
-//	if kluczWygenerowany[iterator1] != kluczOtrzymany[iterator1]{ errorToKeyLength = errorToKeyLength +1;}
-//}
-//errorToKeyLength = errorToKeyLength/dlugoscKlucza;
-real liczbaBledown = liczbaBledow(kluczWygenerowany, kluczOtrzymany, dlugoscKlucza);
+real liczbaPodsluchow = sprawdzanieKluczy(dlugoscKlucza, kluczWygenerowany, kluczOtrzymany,true);
+//real liczbaPodsluchow = //liczbaBledow(kluczWygenerowany, kluczOtrzymany, dlugoscKlucza);
  
-print "Statystyka pomyłek:", procentBledow(liczbaBledown, dlugoscKlucza);
+print "Statystyka pomyłek:", procentBledow(liczbaPodsluchow, dlugoscKlucza);
