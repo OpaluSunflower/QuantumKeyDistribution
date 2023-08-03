@@ -1,0 +1,160 @@
+set dump-format "b";
+
+operator ustawKubit(int baza,int pojedynczyBitKlucza,qureg kubit){
+	if pojedynczyBitKlucza == 1{Not(kubit);}
+	if baza == 1{H(kubit);}
+}
+operator odbiorKubitu(int baza,qureg kubit){
+	if baza== 1{H(kubit);}
+	//print "Stan kubitu przed pomiarem";
+	//measure kubit, pomiar;
+}
+int losuj(real rand){
+	if rand < 0.5{
+		return 0;
+	}
+	else{
+		return 1;
+	}
+}
+string baza(int baza)
+{
+	if baza == 0{
+		return "prosta";
+	}
+	else{
+		return "ukosna";	
+	}
+}
+int polaryzacja(int baza, int kierunek){
+	if baza(baza) == "prosta"{
+		if kierunek == 0{
+			return 0;
+		}
+		else{
+			return 90;
+		}
+	}
+	else{
+		if kierunek == 0{
+			return 45;
+		}
+		else{
+			return 135;
+		}
+	}
+}
+
+real procentBledow(real error, int dlugoscKlucza){
+	real errorToKeyLength = error/dlugoscKlucza;
+	return errorToKeyLength;
+}
+boolean sprawdzaniePojedynczegoBitu(int bitAlicji, int bitBolka){
+	return bitAlicji == bitBolka; 
+}
+real sprawdzanieKluczy(int dlugoscKluczy, int krok, int vector klucz1, int vector klucz2){
+	int iterator2 = 0;
+	real bledy;
+	while iterator2 < dlugoscKluczy{
+		if not sprawdzaniePojedynczegoBitu(klucz1[iterator2],klucz2[iterator2]){
+			bledy = bledy + 1;
+		}
+		iterator2 = iterator2 + krok;
+	}
+	return bledy;
+}
+qureg kubit[1];
+//BAZY
+//0 -> prosta, 1 -> ukosna
+
+//SCHEMAT KODOWANIA
+//BAZA PROSTA -> 0
+//BAZA UKOSNA -> 1
+
+int kierunekPolaryzacji;
+int dlugoscKlucza;
+int bazaAlicji;
+int bazaBolka;
+int bazaEwy;
+int pojedynczyBitKlucza;
+
+int kierunekWBazieProstej;
+int kierunekWBazieUkosnej;
+input "Podaj dlugosc klucza", dlugoscKlucza;
+//int vector bazyAlicji[dlugoscKlucza];
+//int vector bazyBolka[dlugoscKlucza];
+
+int pomiar;
+int pomiarEwy;
+int vector kluczWygenerowany[dlugoscKlucza];
+int vector kluczOtrzymany[dlugoscKlucza];
+int vector kluczPrzechwycony[dlugoscKlucza];
+
+int iterator0 = 0;
+print "-------WYSŁANE KUBITY--------";
+while iterator0 < dlugoscKlucza
+{
+	pojedynczyBitKlucza = losuj(random());
+	print "Bit klucza:", pojedynczyBitKlucza;
+	bazaAlicji = pojedynczyBitKlucza;
+	print "Baza Alicji:", baza(bazaAlicji);
+	kierunekWBazieProstej = losuj(random());
+	print "Kierunek w bazie Prostej: ", polaryzacja(0,kierunekWBazieProstej);
+	kierunekWBazieUkosnej = losuj(random());
+	print "Kierunek w Bazie Ukosnej: ", polaryzacja(1,kierunekWBazieUkosnej);
+	//kierunekPolaryzacji = polaryzacja(bazaAlicji, pojedynczyBitKlucza);
+	//print "KierunekPolaryzacji:",kierunekPolaryzacji;
+	if bazaAlicji == 0{
+		kierunekPolaryzacji = kierunekWBazieProstej;
+	}
+	else{
+		kierunekPolaryzacji = kierunekWBazieUkosnej;	
+	}
+	ustawKubit(bazaAlicji, kierunekPolaryzacji, kubit);
+	//KUBIT USTAWIONY
+	//ATAK EWY
+	bazaBolka = losuj(random());
+	print "Baza Bolka:", baza(bazaBolka);
+	odbiorKubitu(bazaBolka,kubit);
+	measure kubit,pomiar;
+	print "Pomiar Bolka:", polaryzacja(bazaBolka,pomiar);
+	print "Otrzymany bit klucza:", pomiar;
+	if bazaBolka == 0
+	{
+		if kierunekWBazieProstej != pomiar
+		{
+			kluczWygenerowany[iterator0] = pojedynczyBitKlucza;
+			kluczOtrzymany[iterator0] = 1 - bazaBolka;
+			iterator0 = iterator0 + 1;
+		}
+		else
+		{
+			print "Bit niewykorzystany";
+		}
+	}
+	else
+	{
+		if kierunekWBazieUkosnej != pomiar
+		{
+			kluczWygenerowany[iterator0] = pojedynczyBitKlucza;
+			kluczOtrzymany[iterator0] = 1 - bazaBolka;
+			iterator0 = iterator0 + 1;
+		}
+		else
+		{
+			print "Bit niewykorzystany";
+		}
+	}
+	if iterator0 <= dlugoscKlucza -1{print "--------NASTEPNY KUBIT----------";}
+	reset;
+	
+	
+}//petla glowna
+print "Klucz wygenerowany przez Alicję: ",kluczWygenerowany;
+print "Klucz otrzymany przez Bolka:", kluczOtrzymany;
+print "Klucz przechwycony przez Ewe", kluczPrzechwycony;
+int krok = 1;
+real bledyPodsluchu = sprawdzanieKluczy(dlugoscKlucza, krok, kluczWygenerowany, kluczPrzechwycony);
+print "Stopien przejecia:", 1.0 - procentBledow(bledyPodsluchu, dlugoscKlucza);
+real podsluchy = sprawdzanieKluczy(dlugoscKlucza, krok, kluczWygenerowany, kluczOtrzymany);
+print "Statystyka podsluchow", procentBledow(podsluchy, dlugoscKlucza / krok);
