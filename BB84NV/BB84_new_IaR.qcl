@@ -153,9 +153,9 @@ print "Klucz wygenerowany przez Alicję: ",kluczWygenerowany;
 print "Klucz otrzymany przez Bolka:", kluczOtrzymany;
 print "Klucz przechwycony przez Ewe", kluczPrzechwycony;
 real bledyPodsluchu = sprawdzanieKluczy(dlugoscKlucza,kluczWygenerowany, kluczPrzechwycony,false);
-print "Stopień odtworzenia klucza przez Podsłuch:", 1.0 - procentBledow(bledyPodsluchu, dlugoscKlucza);
+print /*"Stopień odtworzenia klucza przez Podsłuch:",*/ 1.0 - procentBledow(bledyPodsluchu, dlugoscKlucza);
 
 real liczbaPodsluchow = sprawdzanieKluczy(dlugoscKlucza, kluczWygenerowany, kluczOtrzymany,true);
 //real liczbaPodsluchow = //liczbaBledow(kluczWygenerowany, kluczOtrzymany, dlugoscKlucza);
  
-print "Statystyka pomyłek:", procentBledow(liczbaPodsluchow, dlugoscKlucza);
+print /*"Statystyka pomyłek:",*/ procentBledow(liczbaPodsluchow, dlugoscKlucza);
