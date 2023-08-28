@@ -1,0 +1,90 @@
+SARG04_IaR   8
+Odtworzenie klucza .751
+Wykryte podsłuchy .092
+Maksymalny odtworzenie klucza 1
+Maksymalne wykrycie podsłuchów 0.375
+ 
+SARG04_IaR   16
+Odtworzenie klucza .750
+Wykryte podsłuchy .093
+Maksymalny odtworzenie klucza 1
+Maksymalne wykrycie podsłuchów 0.3125
+ 
+SARG04_IaR   64
+Odtworzenie klucza .749
+Wykryte podsłuchy .085
+Maksymalny odtworzenie klucza 0.9375
+Maksymalne wykrycie podsłuchów 0.203125
+ 
+SARG04_IaR   256
+Odtworzenie klucza .750
+Wykryte podsłuchy .084
+Maksymalny odtworzenie klucza 0.820312
+Maksymalne wykrycie podsłuchów 0.128906
+ 
+SARG04_IaR   1024
+Odtworzenie klucza .750
+Wykryte podsłuchy .083
+Maksymalny odtworzenie klucza 0.793945
+Maksymalne wykrycie podsłuchów 0.109375
+ 
+SARG04_PNS   8
+Odtworzenie klucza 1.000
+Wykryte podsłuchy 0
+Maksymalny odtworzenie klucza 1
+Maksymalne wykrycie podsłuchów 0
+ 
+SARG04_PNS   16
+Odtworzenie klucza 1.000
+Wykryte podsłuchy 0
+Maksymalny odtworzenie klucza 1
+Maksymalne wykrycie podsłuchów 0
+ 
+SARG04_PNS   64
+Odtworzenie klucza 1.000
+Wykryte podsłuchy 0
+Maksymalny odtworzenie klucza 1
+Maksymalne wykrycie podsłuchów 0
+ 
+SARG04_PNS   256
+Odtworzenie klucza 1.000
+Wykryte podsłuchy 0
+Maksymalny odtworzenie klucza 1
+Maksymalne wykrycie podsłuchów 0
+ 
+SARG04_PNS   1024
+Odtworzenie klucza 1.000
+Wykryte podsłuchy 0
+Maksymalny odtworzenie klucza 1
+Maksymalne wykrycie podsłuchów 0
+ 
+SARG04_Ent   8
+Odtworzenie klucza .743
+Wykryte podsłuchy .094
+Maksymalny odtworzenie klucza 1
+Maksymalne wykrycie podsłuchów 0.375
+ 
+SARG04_Ent   16
+Odtworzenie klucza .747
+Wykryte podsłuchy .092
+Maksymalny odtworzenie klucza 1
+Maksymalne wykrycie podsłuchów 0.3125
+ 
+SARG04_Ent   64
+Odtworzenie klucza .750
+Wykryte podsłuchy .085
+Maksymalny odtworzenie klucza 0.921875
+Maksymalne wykrycie podsłuchów 0.203125
+ 
+SARG04_Ent   256
+Odtworzenie klucza .751
+Wykryte podsłuchy .083
+Maksymalny odtworzenie klucza 0.847656
+Maksymalne wykrycie podsłuchów 0.132812
+ 
+SARG04_Ent   1024
+Odtworzenie klucza .750
+Wykryte podsłuchy .083
+Maksymalny odtworzenie klucza 0.790039
+Maksymalne wykrycie podsłuchów 0.107422
+ 
