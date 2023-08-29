@@ -15,6 +15,7 @@ for f in ${files[@]}; do
 		sumb=0
 		MAXa=0
 		MAXb=0
+		MINb=1
 		a=0
 		d=$(date +%s)
 		#read keylength
@@ -23,7 +24,7 @@ for f in ${files[@]}; do
 		while [ $counter -gt 0 ]
 		do
 			d=$(( $d + 1 ))
-			printf $keylength | ./qcl BB84/v2/BB84_new_$f.qcl -s $d -o logi
+			printf $keylength | ./qcl SARG04/v2/SARG04_new_$f.qcl -s $d -o logi
 			IFS=' ' read -r -a array <<< $(tail -2 logi | head -n 1)
 			suma=$(echo $suma + ${array[1]} | bc)
 			if (( $(echo "${array[1]} > $MAXa" |bc -l) )); then
@@ -34,13 +35,17 @@ for f in ${files[@]}; do
 			if (( $(echo "${array[1]} > $MAXb" |bc -l) )); then
 				MAXb=${array[1]}
 			fi
+			if (( $(echo "${array[1]} < $MINb" |bc -l) )); then
+				MINb=${array[1]}
+			fi
 			counter=$(( $counter - 1 ))
 		done
-		echo "SARG04_"$f " " $keylength>> resultsBB84_3.txt
-		echo "Odtworzenie klucza" $(echo "scale=3; $suma / $iter" | bc) >> resultsBB84_3.txt 
-		echo "Wykryte podsłuchy" $(echo "scale=3; $sumb / $iter" | bc) >> resultsBB84_3.txt
-		echo "Maksymalny odtworzenie klucza" $MAXa >> resultsBB84_3.txt
-		echo "Maksymalne wykrycie podsłuchów" $MAXb >> resultsBB84_3.txt
-		echo " " >> resultsBB84_3.txt
+		echo "SARG04_"$f " " $keylength>> resultsSARG04_2.txt
+		echo "Odtworzenie klucza" $(echo "scale=3; $suma / $iter" | bc) >> resultsSARG04_2.txt 
+		echo "Wykryte podsłuchy" $(echo "scale=3; $sumb / $iter" | bc) >> resultsSARG04_2.txt
+		echo "Maksymalny odtworzenie klucza" $MAXa >> resultsSARG04_2.txt
+		echo "Maksymalne wykrycie podsłuchów" $MAXb >> resultsSARG04_2.txt
+		echo "Minimalne wykrycie podsłuchów" $MINb >> resultsSARG04_2.txt
+		echo " " >> resultsSARG04_2.txt
 	done
 done

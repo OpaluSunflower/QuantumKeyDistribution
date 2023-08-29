@@ -1,0 +1,105 @@
+SARG04_IaR   8
+Odtworzenie klucza .497
+Wykryte podsłuchy .214
+Maksymalny odtworzenie klucza 1
+Maksymalne wykrycie podsłuchów 0.5
+Minimalne wykrycie podsłuchów 0
+ 
+SARG04_IaR   16
+Odtworzenie klucza .497
+Wykryte podsłuchy .216
+Maksymalny odtworzenie klucza 0.875
+Maksymalne wykrycie podsłuchów 0.5
+Minimalne wykrycie podsłuchów 0
+ 
+SARG04_IaR   64
+Odtworzenie klucza .497
+Wykryte podsłuchy .211
+Maksymalny odtworzenie klucza 0.6875
+Maksymalne wykrycie podsłuchów 0.375
+Minimalne wykrycie podsłuchów 0.078125
+ 
+SARG04_IaR   256
+Odtworzenie klucza .499
+Wykryte podsłuchy .213
+Maksymalny odtworzenie klucza 0.605469
+Maksymalne wykrycie podsłuchów 0.285156
+Minimalne wykrycie podsłuchów 0.152344
+ 
+SARG04_IaR   1024
+Odtworzenie klucza .500
+Wykryte podsłuchy .213
+Maksymalny odtworzenie klucza 0.553711
+Maksymalne wykrycie podsłuchów 0.248047
+Minimalne wykrycie podsłuchów 0.174805
+ 
+SARG04_PNS   8
+Odtworzenie klucza .745
+Wykryte podsłuchy 0
+Maksymalny odtworzenie klucza 1
+Maksymalne wykrycie podsłuchów 0
+Minimalne wykrycie podsłuchów 0
+ 
+SARG04_PNS   16
+Odtworzenie klucza .750
+Wykryte podsłuchy 0
+Maksymalny odtworzenie klucza 1
+Maksymalne wykrycie podsłuchów 0
+Minimalne wykrycie podsłuchów 0
+ 
+SARG04_PNS   64
+Odtworzenie klucza .750
+Wykryte podsłuchy 0
+Maksymalny odtworzenie klucza 0.921875
+Maksymalne wykrycie podsłuchów 0
+Minimalne wykrycie podsłuchów 0
+ 
+SARG04_PNS   256
+Odtworzenie klucza .750
+Wykryte podsłuchy 0
+Maksymalny odtworzenie klucza 0.839844
+Maksymalne wykrycie podsłuchów 0
+Minimalne wykrycie podsłuchów 0
+ 
+SARG04_PNS   1024
+Odtworzenie klucza .749
+Wykryte podsłuchy 0
+Maksymalny odtworzenie klucza 0.802734
+Maksymalne wykrycie podsłuchów 0
+Minimalne wykrycie podsłuchów 0
+ 
+SARG04_Ent   8
+Odtworzenie klucza .505
+Wykryte podsłuchy .164
+Maksymalny odtworzenie klucza 1
+Maksymalne wykrycie podsłuchów 0.5
+Minimalne wykrycie podsłuchów 0
+ 
+SARG04_Ent   16
+Odtworzenie klucza .501
+Wykryte podsłuchy .166
+Maksymalny odtworzenie klucza 0.9375
+Maksymalne wykrycie podsłuchów 0.5
+Minimalne wykrycie podsłuchów 0
+ 
+SARG04_Ent   64
+Odtworzenie klucza .499
+Wykryte podsłuchy .165
+Maksymalny odtworzenie klucza 0.703125
+Maksymalne wykrycie podsłuchów 0.3125
+Minimalne wykrycie podsłuchów 0.046875
+ 
+SARG04_Ent   256
+Odtworzenie klucza .500
+Wykryte podsłuchy .166
+Maksymalny odtworzenie klucza 0.597656
+Maksymalne wykrycie podsłuchów 0.253906
+Minimalne wykrycie podsłuchów 0.105469
+ 
+SARG04_Ent   1024
+Odtworzenie klucza .500
+Wykryte podsłuchy .166
+Maksymalny odtworzenie klucza 0.560547
+Maksymalne wykrycie podsłuchów 0.208984
+Minimalne wykrycie podsłuchów 0.125977
+ 
